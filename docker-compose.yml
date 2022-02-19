@@ -16,11 +16,11 @@ services:
       - ./api:/app
     env_file: ./api/.env
     environment:
-      MYSQL_HOST: db
-      MYSQL_PORT: 3306
-      MYSQL_DATABASE: newwayrec
-      # MYSQL_USER: root
-      MYSQL_PASSWORD: root
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
 
   new-way-recruiter-web:
     image: node:${NODE_VERSION}
