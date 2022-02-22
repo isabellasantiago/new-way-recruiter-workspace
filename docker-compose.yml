@@ -7,7 +7,7 @@ services:
     networks:
       - new_way_recruiter_network
     depends_on: 
-      - db
+      - datab
     ports:
       - 3333:${NODE_PORT}
     command: yarn start:dev
@@ -15,12 +15,6 @@ services:
     volumes:
       - ./api:/app
     env_file: ./api/.env
-    environment:
-      MYSQL_HOST: ${MYSQL_HOST}
-      MYSQL_PORT: ${MYSQL_PORT}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
 
   new-way-recruiter-web:
     image: node:${NODE_VERSION}
@@ -43,29 +37,27 @@ services:
     networks:
       - new_way_recruiter_network
     depends_on:
-      - db
+      - datab
     environment:
-      PMA_HOST: db
-      MYSQL_ROOT_PASSWORD: "root"
+      PMA_HOST: datab
+      MYSQL_ROOT_PASSWORD: root
   
-  db:
-    image: mysql
+  datab:
+    image: mariadb:10
     networks:
       - new_way_recruiter_network
     ports:
       - "3306:3306"
     volumes:
-      - mysqlDb:/var/lib/mysql
-    cap_add:
-      - SYS_NICE
+      - db_data:/var/lib/mysql
     environment:
-      MYSQL_HOST: db
-      MYSQL_PORT: 3306
+      MYSQL_USER: new
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: newwayrec
+      MYSQL_PASSWORD: root
 
 networks:
   new_way_recruiter_network:
 
 volumes:
-  mysqlDb:
+  db_data:
